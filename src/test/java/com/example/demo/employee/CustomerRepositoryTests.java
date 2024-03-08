@@ -4,12 +4,14 @@ import com.example.demo.employee.entity.Customer;
 import com.example.demo.employee.entity.Employee;
 import com.example.demo.employee.repository.CustomerRepository;
 import com.example.demo.employee.repository.EmployeeRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -61,13 +63,14 @@ public class CustomerRepositoryTests {
     @Test
     public void test_find_by_email(){
         Optional<Customer> customer = customerRepository.findByEmail("lucas@example.com");
-        //
-        System.out.println(customer.get().getEmployee());
+        assert customer.isPresent();
+        assert customer.get().getEmployee() != null;
     }
 
     @Test
     public void test_find_by_email2(){
         Optional<Customer> customer = customerRepository.findByEmail("lucas@example.com");
+        Assertions.assertTrue(customer.isPresent(), "customer exist");
         //
         System.out.println(customer.get().getEmail());
     }
@@ -156,6 +159,38 @@ public class CustomerRepositoryTests {
         Pageable pageable = Pageable.ofSize(10).withPage(1);
         Page<Customer> customerPage = customerRepository.findByEmployee(603, pageable);
         System.out.println(customerPage.getTotalPages() + "," + customerPage.getTotalElements());
+    }
+
+    @Test
+    public void test_update_by_email(){
+        customerRepository.updateEmail(100604, "john@example.com", LocalDateTime.now());
+    }
+
+    @Test
+    public void test_update_by_email2(){
+        Optional<Customer> customer = customerRepository.findFirstByEmail("lucas@example.com");
+        assert customer.isPresent();
+        // will update all columns
+        Customer customer1 = customer.get();
+        customer1.setEmail("lucas11@example.com");
+        customer1.setUpdatedTime(LocalDateTime.now());
+        customerRepository.save(customer1);
+    }
+
+    @Test
+    public void test_update_by_email3(){
+        Optional<Customer> customer = customerRepository.findFirstByEmail("lucas@example.com");
+        assert customer.isPresent();
+
+        customerRepository.updateEmail(customer.get().getId(), "john3@example.com", LocalDateTime.now());
+    }
+
+    @Test
+    public void test_find_top(){
+        Sort sort = Sort.by("createdTime").descending()
+                .and(Sort.by("id").descending());
+        List<Customer> customers = customerRepository.findTop10ByEmail("lucas@example.com", sort);
+        assert customers.size() == 10;
     }
 
 }

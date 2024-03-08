@@ -46,5 +46,4 @@ public class Customer {
     private Integer status;
     private Integer deletedBy;
     private LocalDateTime deletedTime;
-
 }
