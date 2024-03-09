@@ -53,6 +53,8 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.kafka:spring-kafka'
 	//
+	// implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
+	//
 	implementation 'net.ttddyy:datasource-proxy:1.10'
 	//
 	compileOnly 'org.projectlombok:lombok'
