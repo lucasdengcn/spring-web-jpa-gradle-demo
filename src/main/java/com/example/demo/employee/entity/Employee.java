@@ -1,11 +1,11 @@
 package com.example.demo.employee.entity;
 
+import com.example.demo.employee.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Auditable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employee")
-public class Employee {
+public class Employee extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_id_seq")
@@ -29,12 +29,6 @@ public class Employee {
     private String email;
 
     private LocalDate dateOfBirth;
-
-    private Integer createdBy;
-    private LocalDateTime createdTime;
-
-    private Integer updatedBy;
-    private LocalDateTime updatedTime;
 
     private Integer status;
     private Integer deletedBy;

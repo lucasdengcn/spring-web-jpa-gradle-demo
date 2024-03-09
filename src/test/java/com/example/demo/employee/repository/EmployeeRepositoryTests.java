@@ -1,4 +1,4 @@
-package com.example.demo.employee;
+package com.example.demo.employee.repository;
 
 import com.example.demo.employee.entity.Employee;
 import com.example.demo.employee.repository.EmployeeRepository;
@@ -40,7 +40,6 @@ public class EmployeeRepositoryTests {
                 .name("tom")
                 .email("tom@example.com")
                 .dateOfBirth(localDate)
-                .createdTime(LocalDateTime.now())
                 .status(1)
                 .build();
         //
@@ -61,7 +60,6 @@ public class EmployeeRepositoryTests {
                     .name("sam_" + i)
                     .email("sam@example.com")
                     .dateOfBirth(localDate)
-                    .createdTime(LocalDateTime.now())
                     .build();
             //
             list.add(employee);

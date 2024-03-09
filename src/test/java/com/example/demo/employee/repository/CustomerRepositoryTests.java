@@ -1,4 +1,4 @@
-package com.example.demo.employee;
+package com.example.demo.employee.repository;
 
 import com.example.demo.employee.entity.Customer;
 import com.example.demo.employee.entity.Employee;

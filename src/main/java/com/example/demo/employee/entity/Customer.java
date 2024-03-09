@@ -1,5 +1,7 @@
 package com.example.demo.employee.entity;
 
+import com.example.demo.employee.audit.Auditable;
+import com.example.demo.employee.audit.AuditingEntityListener;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Builder
 @Data
 @NoArgsConstructor
@@ -21,7 +24,7 @@ import java.time.LocalDateTime;
 @SQLRestriction("status < 9")
 @FilterDef(name = "deletedCustomerFilter", parameters = @ParamDef(name = "status", type = Integer.class))
 @Filter(name = "deletedCustomerFilter", condition = "status = :status")
-public class Customer {
+public class Customer extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
@@ -36,12 +39,6 @@ public class Customer {
     private Employee employee;
 
     private LocalDate dateOfBirth;
-
-    private Integer createdBy;
-    private LocalDateTime createdTime;
-
-    private Integer updatedBy;
-    private LocalDateTime updatedTime;
 
     private Integer status;
     private Integer deletedBy;

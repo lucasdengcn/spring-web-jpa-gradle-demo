@@ -11,7 +11,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
         log.info("@@getCurrentAuditor");
-        return Optional.of("Mr. Auditor");
+        return Optional.of("Mr. Auditor John");
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.demo.employee;
+package com.example.demo.employee.httpclients;
 
 import com.example.demo.employee.httpclients.StockServiceClient;
 import com.example.demo.employee.vos.StockPot;
