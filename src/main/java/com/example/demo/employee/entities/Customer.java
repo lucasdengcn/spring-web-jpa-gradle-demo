@@ -4,10 +4,7 @@ import com.example.demo.employee.audit.Auditable;
 import com.example.demo.employee.audit.AuditingEntityListener;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.*;
 
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "customer")
 @SQLDelete(sql = "UPDATE customer SET status = 9, deleted_time = now(), WHERE id=?")
 @SQLRestriction("status < 9")

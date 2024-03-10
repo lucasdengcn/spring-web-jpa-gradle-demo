@@ -8,7 +8,7 @@ logging:
     com.example.demo: DEBUG
     com.zaxxer: INFO
     org.springframework:
-        graphql: DEBUG
+        graphql: TRACE
         web:
           client.RestClient: DEBUG
 

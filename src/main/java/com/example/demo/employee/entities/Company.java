@@ -3,10 +3,7 @@ package com.example.demo.employee.entities;
 import com.example.demo.employee.audit.Auditable;
 import com.example.demo.employee.audit.AuditingEntityListener;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -19,6 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class Company extends Auditable<String> {
 
     @Id

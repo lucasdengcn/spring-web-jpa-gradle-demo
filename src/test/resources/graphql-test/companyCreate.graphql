@@ -1,0 +1,8 @@
+mutation companyCreate($input: CompanyCreateInput!) {
+    saveCompany(input: $input) {
+        id
+        name
+        createdTime
+        updatedTime
+    }
+}

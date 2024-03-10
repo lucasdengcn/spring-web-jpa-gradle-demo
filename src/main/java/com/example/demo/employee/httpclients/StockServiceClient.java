@@ -1,6 +1,6 @@
 package com.example.demo.employee.httpclients;
 
-import com.example.demo.employee.records.StockPot;
+import com.example.demo.employee.models.StockPot;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

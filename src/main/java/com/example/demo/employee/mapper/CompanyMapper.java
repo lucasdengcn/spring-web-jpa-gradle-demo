@@ -1,7 +1,8 @@
 package com.example.demo.employee.mapper;
 
+import com.example.demo.employee.apis.request.CompanyCreateInput;
 import com.example.demo.employee.entities.Company;
-import com.example.demo.employee.records.CompanyVO;
+import com.example.demo.employee.models.CompanyModel;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -9,12 +10,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CompanyMapper {
 
-    CompanyVO entityToVO(Company company);
+    CompanyModel entityToModel(Company company);
 
-    List<CompanyVO> entityToVOs(Iterable<Company> companies);
+    List<CompanyModel> entityToModel(Iterable<Company> companies);
 
-    Company voToEntity(CompanyVO companyVO);
-
-    List<Company> vosToEntity(Iterable<CompanyVO> companyVOIterable);
-
+    Company inputToEntity(CompanyCreateInput companyCreateInput);
 }

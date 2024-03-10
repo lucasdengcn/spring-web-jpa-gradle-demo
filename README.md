@@ -14,3 +14,5 @@ https://github.com/eugenp/tutorials/blob/master/persistence-modules/spring-data-
 https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
 
 https://www.baeldung.com/spring-data-jpa-dynamicupdate
+
+https://www.baeldung.com/spring-graphql-error-handling

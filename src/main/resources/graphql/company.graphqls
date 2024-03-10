@@ -3,12 +3,14 @@ type Query {
 	company(id:Int): Company
 }
 
+type Mutation {
+    saveCompany(input: CompanyCreateInput!): Company!
+}
+
 type Company {
 	id: ID!
 	name: String!
-	createdBy: String
 	createdTime: LocalDateTime
-	updatedBy: String
 	updatedTime: LocalDateTime
 }
 
@@ -20,4 +22,8 @@ type CompanyConnection {
 type CompanyEdge {
 	node: Company!
 	cursor: String!
+}
+
+input CompanyCreateInput {
+    name: String!
 }

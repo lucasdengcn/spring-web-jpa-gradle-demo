@@ -1,8 +1,8 @@
 package com.example.demo.employee.controllers;
 
 
-import com.example.demo.employee.entities.Company;
-import com.example.demo.employee.records.CompanyVO;
+import com.example.demo.employee.apis.request.CompanyCreateInput;
+import com.example.demo.employee.models.CompanyModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -34,7 +34,7 @@ public class CompanyGraphQLControllerTests {
         Assertions.assertNotNull(response);
         GraphQlTester.Path path = response.path("companies");
         Assertions.assertNotNull(path);
-        GraphQlTester.EntityList<CompanyVO> companies = path.entityList(CompanyVO.class);
+        GraphQlTester.EntityList<CompanyModel> companies = path.entityList(CompanyModel.class);
         Assertions.assertNotNull(companies);
         Assertions.assertTrue(companies.get().size() > 0);
         //
@@ -63,7 +63,7 @@ public class CompanyGraphQLControllerTests {
         Assertions.assertTrue(response != null);
         GraphQlTester.Path path = response.path("company");
         Assertions.assertNotNull(path);
-        GraphQlTester.Entity<CompanyVO, ?> companyEntity = path.entity(CompanyVO.class);
+        GraphQlTester.Entity<CompanyModel, ?> companyEntity = path.entity(CompanyModel.class);
         Assertions.assertNotNull(companyEntity);
         Assertions.assertTrue(companyEntity.get() != null);
         //
@@ -81,6 +81,25 @@ public class CompanyGraphQLControllerTests {
 
         Assertions.assertNotNull(response.errors());
         response.path("company");
+    }
+
+    @Test
+    void should_create_company_with_name() throws JsonProcessingException {
+        CompanyCreateInput companyCreateInput = new CompanyCreateInput("Company BYD");
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companyCreate")
+                .variable("input", companyCreateInput)
+                .execute();
+
+        Assertions.assertNotNull(response.errors());
+        GraphQlTester.Path path = response.path("saveCompany");
+        Assertions.assertNotNull(path);
+        GraphQlTester.Entity<CompanyModel, ?> companyEntity = path.entity(CompanyModel.class);
+        Assertions.assertNotNull(companyEntity);
+        Assertions.assertTrue(companyEntity.get() != null);
+        //
+        String s = objectMapper.writeValueAsString(companyEntity.get());
+        System.out.println(s);
     }
 
 }
