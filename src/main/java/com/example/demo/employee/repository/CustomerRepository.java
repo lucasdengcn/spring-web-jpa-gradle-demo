@@ -1,6 +1,6 @@
 package com.example.demo.employee.repository;
 
-import com.example.demo.employee.entity.Customer;
+import com.example.demo.employee.entities.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

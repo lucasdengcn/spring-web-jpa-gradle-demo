@@ -1,0 +1,6 @@
+query companyQuery($pageSize:Int, $pageIndex:Int) {
+    companies(pageSize: $pageSize, pageIndex: $pageIndex) {
+        id
+        name
+    }
+}

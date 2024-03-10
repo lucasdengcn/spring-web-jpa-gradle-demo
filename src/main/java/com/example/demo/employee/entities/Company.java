@@ -1,4 +1,4 @@
-package com.example.demo.employee.entity;
+package com.example.demo.employee.entities;
 
 import com.example.demo.employee.audit.Auditable;
 import com.example.demo.employee.audit.AuditingEntityListener;

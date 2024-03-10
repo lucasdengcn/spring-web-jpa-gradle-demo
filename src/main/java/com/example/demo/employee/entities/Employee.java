@@ -1,4 +1,4 @@
-package com.example.demo.employee.entity;
+package com.example.demo.employee.entities;
 
 import com.example.demo.employee.audit.Auditable;
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Builder

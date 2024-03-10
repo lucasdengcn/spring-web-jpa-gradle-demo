@@ -57,9 +57,12 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.kafka:spring-kafka'
 	//
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	//
 	// implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
 	//
 	implementation 'net.ttddyy:datasource-proxy:1.10'
+	implementation("com.tailrocks.graphql:graphql-datetime-spring-boot-starter:6.0.0")
 	//
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	compileOnly 'org.projectlombok:lombok'

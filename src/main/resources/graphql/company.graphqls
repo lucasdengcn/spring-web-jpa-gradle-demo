@@ -1,0 +1,23 @@
+type Query {
+	companies(pageSize:Int, pageIndex:Int): [Company]!
+	company(id:Int): Company
+}
+
+type Company {
+	id: ID!
+	name: String!
+	createdBy: String
+	createdTime: LocalDateTime
+	updatedBy: String
+	updatedTime: LocalDateTime
+}
+
+type CompanyConnection {
+	edges: [CompanyEdge]!
+	pageInfo: PageInfo!
+}
+
+type CompanyEdge {
+	node: Company!
+	cursor: String!
+}

@@ -1,0 +1,10 @@
+query companyById($id:Int) {
+    company(id: $id) {
+        id
+        name
+        createdBy
+        createdTime
+        updatedBy
+        updatedTime
+    }
+}

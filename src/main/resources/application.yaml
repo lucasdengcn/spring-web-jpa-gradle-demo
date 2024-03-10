@@ -8,11 +8,23 @@ logging:
     com.example.demo: DEBUG
     com.zaxxer: INFO
     org.springframework:
+        graphql: DEBUG
         web:
           client.RestClient: DEBUG
 
+graphql:
+  datetime:
+    scalars:
+      local-date:
+        format: yyyy-MM-ddzzz
+      local-date-time:
+        format: yyyy-MM-dd'T'HH:mm:sszzz
 
 spring:
+  graphql:
+    graphiql:
+      enabled: true
+
   datasource:
     hikari:
       connectionTimeout: 20000

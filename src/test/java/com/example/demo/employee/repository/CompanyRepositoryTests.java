@@ -1,15 +1,11 @@
 package com.example.demo.employee.repository;
 
-import com.example.demo.employee.entity.Company;
-import com.example.demo.employee.httpclients.StockServiceClient;
-import com.example.demo.employee.repository.CompanyRepository;
-import com.example.demo.employee.vos.StockPot;
+import com.example.demo.employee.entities.Company;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest

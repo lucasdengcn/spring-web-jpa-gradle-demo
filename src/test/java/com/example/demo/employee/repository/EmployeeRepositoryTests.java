@@ -1,23 +1,18 @@
 package com.example.demo.employee.repository;
 
-import com.example.demo.employee.entity.Employee;
-import com.example.demo.employee.repository.EmployeeRepository;
-import org.junit.jupiter.api.BeforeAll;
+import com.example.demo.employee.entities.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @SpringBootTest
 public class EmployeeRepositoryTests {

@@ -1,9 +1,7 @@
 package com.example.demo.employee.repository;
 
-import com.example.demo.employee.entity.Customer;
-import com.example.demo.employee.entity.Employee;
-import com.example.demo.employee.repository.CustomerRepository;
-import com.example.demo.employee.repository.EmployeeRepository;
+import com.example.demo.employee.entities.Customer;
+import com.example.demo.employee.entities.Employee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
