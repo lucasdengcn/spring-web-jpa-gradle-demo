@@ -1,6 +1,6 @@
 package com.example.demo.employee.services;
 
-import com.example.demo.employee.apis.request.CompanyCreateInput;
+import com.example.demo.employee.apis.input.CompanyCreateInput;
 import com.example.demo.employee.entities.Company;
 import com.example.demo.employee.exception.RecordNotFoundException;
 import com.example.demo.employee.mapper.CompanyMapper;

@@ -1,4 +1,13 @@
 
+## Naming Convention
+
+* entity : for persistence
+* input : for request payload
+* model : for response
+
+
+## Reference
+
 https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-postgresql/
 
 https://thorben-janssen.com/hibernate-features-with-spring-data-jpa/

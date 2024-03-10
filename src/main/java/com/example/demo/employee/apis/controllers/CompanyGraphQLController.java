@@ -1,8 +1,9 @@
 package com.example.demo.employee.apis.controllers;
 
-import com.example.demo.employee.apis.request.CompanyCreateInput;
+import com.example.demo.employee.apis.input.CompanyCreateInput;
 import com.example.demo.employee.models.CompanyModel;
 import com.example.demo.employee.services.CompanyService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -34,7 +35,7 @@ public class CompanyGraphQLController {
     }
 
     @MutationMapping
-    public CompanyModel saveCompany(@NotNull @Argument CompanyCreateInput input){
+    public CompanyModel saveCompany(@NotNull @Valid @Argument CompanyCreateInput input){
         return companyService.create(input);
     }
 

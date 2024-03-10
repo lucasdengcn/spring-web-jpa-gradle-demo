@@ -28,6 +28,6 @@ public class AuditingEntityListener {
 
     @Transactional
     private void perform(Object target, String action) {
-        log.info("audit: {}", target);
+        log.info("audit: {}, {}", action, target);
     }
 }

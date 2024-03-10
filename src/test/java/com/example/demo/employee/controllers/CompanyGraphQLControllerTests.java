@@ -1,17 +1,22 @@
 package com.example.demo.employee.controllers;
 
 
-import com.example.demo.employee.apis.request.CompanyCreateInput;
+import com.example.demo.employee.apis.input.CompanyCreateInput;
 import com.example.demo.employee.models.CompanyModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import graphql.ErrorClassification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.graphql.ResponseError;
+import org.springframework.graphql.execution.ErrorType;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
+
+import java.util.function.Predicate;
 
 @SpringBootTest
 @AutoConfigureHttpGraphQlTester
@@ -80,7 +85,18 @@ public class CompanyGraphQLControllerTests {
                 .execute();
 
         Assertions.assertNotNull(response.errors());
-        response.path("company");
+        response.errors().expect(responseError -> ErrorType.NOT_FOUND.equals(responseError.getErrorType()));
+    }
+
+    @Test
+    void should_get_company_byId_input_invalid() throws JsonProcessingException {
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companyById")
+                .variable("id", null)
+                .execute();
+
+        Assertions.assertNotNull(response.errors());
+        response.errors().expect(responseError -> ErrorType.BAD_REQUEST.equals(responseError.getErrorType()));
     }
 
     @Test
@@ -100,6 +116,22 @@ public class CompanyGraphQLControllerTests {
         //
         String s = objectMapper.writeValueAsString(companyEntity.get());
         System.out.println(s);
+    }
+
+    @Test
+    void should_create_company_with_invalid_input() throws JsonProcessingException {
+        CompanyCreateInput companyCreateInput = new CompanyCreateInput("BYD");
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companyCreate")
+                .variable("input", companyCreateInput)
+                .execute();
+
+        Assertions.assertNotNull(response.errors());
+        response.errors().expect(responseError -> {
+            return ErrorType.BAD_REQUEST.equals(responseError.getErrorType());
+            // Object classification = responseError.getExtensions().get("classification");
+            // return ErrorType.BAD_REQUEST.toString().equalsIgnoreCase(classification + "");
+        });
     }
 
 }
