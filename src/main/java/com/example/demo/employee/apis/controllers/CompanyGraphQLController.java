@@ -1,7 +1,11 @@
 package com.example.demo.employee.apis.controllers;
 
 import com.example.demo.employee.entities.Company;
+import com.example.demo.employee.exception.RecordNotFoundException;
+import com.example.demo.employee.records.CompanyVO;
 import com.example.demo.employee.repository.CompanyRepository;
+import com.example.demo.employee.services.CompanyService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -14,25 +18,20 @@ import java.util.Optional;
 @Controller
 public class CompanyGraphQLController {
 
-    private CompanyRepository companyRepository;
+    private CompanyService companyService;
 
-    public CompanyGraphQLController(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
+    public CompanyGraphQLController(CompanyService companyService) {
+        this.companyService = companyService;
     }
 
     @QueryMapping
-    public List<Company> companies(@Argument int pageIndex, @Argument int pageSize){
-        Page<com.example.demo.employee.entities.Company> all = companyRepository.findAll(Pageable.ofSize(pageSize).withPage(pageIndex));
-        return all.getContent();
+    public List<CompanyVO> companies(@Argument int pageIndex, @Argument int pageSize){
+        return companyService.findCompanies(pageSize, pageIndex).getContent();
     }
 
     @QueryMapping
-    public Company company(@Argument int id){
-        Optional<Company> companyOptional = companyRepository.findById(id);
-        if (companyOptional.isPresent()) {
-            return companyOptional.get();
-        }
-        throw new RuntimeException("NOT_FOUND");
+    public CompanyVO company(@Argument int id){
+         return companyService.findCompanyById(id);
     }
 
 }

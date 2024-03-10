@@ -2,6 +2,7 @@ package com.example.demo.employee.controllers;
 
 
 import com.example.demo.employee.entities.Company;
+import com.example.demo.employee.records.CompanyVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -33,7 +34,7 @@ public class CompanyGraphQLControllerTests {
         Assertions.assertNotNull(response);
         GraphQlTester.Path path = response.path("companies");
         Assertions.assertNotNull(path);
-        GraphQlTester.EntityList<Company> companies = path.entityList(Company.class);
+        GraphQlTester.EntityList<CompanyVO> companies = path.entityList(CompanyVO.class);
         Assertions.assertNotNull(companies);
         Assertions.assertTrue(companies.get().size() > 0);
         //
@@ -59,16 +60,27 @@ public class CompanyGraphQLControllerTests {
                 .variable("id", 155)
                 .execute();
 
-        Assertions.assertNotNull(response);
+        Assertions.assertTrue(response != null);
         GraphQlTester.Path path = response.path("company");
         Assertions.assertNotNull(path);
-        GraphQlTester.Entity<Company, ?> companyEntity = path.entity(Company.class);
+        GraphQlTester.Entity<CompanyVO, ?> companyEntity = path.entity(CompanyVO.class);
         Assertions.assertNotNull(companyEntity);
         Assertions.assertTrue(companyEntity.get() != null);
         //
         String s = objectMapper.writeValueAsString(companyEntity.get());
         System.out.println(s);
 
+    }
+
+    @Test
+    void should_get_company_byId_not_found() throws JsonProcessingException {
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companyById")
+                .variable("id", 1550)
+                .execute();
+
+        Assertions.assertNotNull(response.errors());
+        response.path("company");
     }
 
 }

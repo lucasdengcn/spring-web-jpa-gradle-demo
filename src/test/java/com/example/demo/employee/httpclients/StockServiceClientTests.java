@@ -1,7 +1,6 @@
 package com.example.demo.employee.httpclients;
 
-import com.example.demo.employee.httpclients.StockServiceClient;
-import com.example.demo.employee.vos.StockPot;
+import com.example.demo.employee.records.StockPot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

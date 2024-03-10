@@ -42,6 +42,8 @@ ext {
 	set('snippetsDir', file("build/generated-snippets"))
 	set('springBootAdminVersion', "3.2.1")
 	set('springCloudVersion', "2023.0.0")
+	set('mapStructVersion', "1.5.5.Final")
+	set('lombokMapstructBindingVersion', "0.2.0")
 }
 
 dependencies {
@@ -58,6 +60,8 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 	//
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct
+	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 	//
 	// implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
 	//
@@ -66,10 +70,13 @@ dependencies {
 	//
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	compileOnly 'org.projectlombok:lombok'
+	//
 	runtimeOnly 'org.postgresql:postgresql'
 	//
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 	//
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework:spring-webflux'
@@ -77,7 +84,6 @@ dependencies {
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'com.h2database:h2'
 }
 
 dependencyManagement {
