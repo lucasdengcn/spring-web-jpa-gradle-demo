@@ -10,6 +10,7 @@ import com.example.demo.employee.models.CompanyConnection;
 import com.example.demo.employee.models.CompanyEdge;
 import com.example.demo.employee.models.CompanyModel;
 import com.example.demo.employee.repository.CompanyRepository;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class CompanyService {
         return companyMapper.entityToModel(company);
     }
 
-    public Page<CompanyModel> findCompanies(int pageSize, int pageIndex){
+    public Page<CompanyModel> findCompanies(@NonNull Integer pageSize, @NonNull Integer pageIndex){
         Pageable pageable = Pageable.ofSize(pageSize).withPage(pageIndex);
         Page<Company> companyPage = companyRepository.findAll(pageable);
         //
@@ -47,7 +48,7 @@ public class CompanyService {
         return companyVOPage;
     }
 
-    public CompanyModel findCompanyById(int companyId){
+    public CompanyModel findCompanyById(@NonNull Integer companyId){
         Optional<Company> companyOptional = companyRepository.findById(companyId);
         if (companyOptional.isPresent()){
             return companyMapper.entityToModel(companyOptional.get());
