@@ -34,6 +34,7 @@ spring:
     url: jdbc:postgresql://localhost:15432/postgres?currentSchema=spring_demo1&autoReconnect=true&serverTimezone=UTC&characterEncoding=utf-8&allowMultiQueries=true&stringtype=unspecified
     username: postgres
     password: pgdev01
+
   jpa:
     hibernate:
       ddl-auto: none

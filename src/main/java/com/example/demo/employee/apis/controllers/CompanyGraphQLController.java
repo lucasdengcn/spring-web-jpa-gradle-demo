@@ -1,6 +1,8 @@
 package com.example.demo.employee.apis.controllers;
 
+import com.example.demo.base.models.CursorInputModel;
 import com.example.demo.employee.apis.input.CompanyCreateInput;
+import com.example.demo.employee.models.CompanyConnection;
 import com.example.demo.employee.models.CompanyModel;
 import com.example.demo.employee.services.CompanyService;
 import jakarta.validation.Valid;
@@ -27,6 +29,15 @@ public class CompanyGraphQLController {
     @QueryMapping
     public List<CompanyModel> companies(@NotNull @Argument int pageIndex, @NotNull @Argument int pageSize){
         return companyService.findCompanies(pageSize, pageIndex).getContent();
+    }
+
+    @QueryMapping
+    public CompanyConnection companiesCursor(@Argument("first") Integer first,
+                                       @Argument("after") String after,
+                                       @Argument("last") Integer last,
+                                       @Argument("before") String before){
+        //
+        return companyService.findCompaniesWithCursor(new CursorInputModel(first, after, last, before));
     }
 
     @QueryMapping

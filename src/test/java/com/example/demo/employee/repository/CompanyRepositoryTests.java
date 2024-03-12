@@ -1,11 +1,13 @@
 package com.example.demo.employee.repository;
 
+import com.example.demo.base.models.CursorInputModel;
 import com.example.demo.employee.entities.Company;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -51,4 +53,21 @@ public class CompanyRepositoryTests {
         Assertions.assertTrue(company.getUpdatedTime().isAfter(company.getCreatedTime()));
     }
 
+    @Test
+    public void test_pagination_with_cursor_first_page(){
+        List<Company> withCursor = companyRepository.findWithCursor(2);
+        Assertions.assertEquals(withCursor.size(), 2);
+    }
+
+    @Test
+    public void test_pagination_with_cursor_next_page(){
+        List<Company> withCursor = companyRepository.findNextWithPageCursor(159,2);
+        Assertions.assertEquals(withCursor.size(), 2);
+    }
+
+    @Test
+    public void test_pagination_with_cursor_previous_page(){
+        List<Company> withCursor = companyRepository.findNextWithPageCursor(156,2);
+        Assertions.assertEquals(withCursor.size(), 2);
+    }
 }

@@ -1,0 +1,19 @@
+query companiesQueryFirst($first: Int) {
+    companiesCursor(first: $first) {
+        edges {
+          cursor
+          node {
+            id
+            name
+            createdTime
+            updatedTime
+          }
+        }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
+    }
+}

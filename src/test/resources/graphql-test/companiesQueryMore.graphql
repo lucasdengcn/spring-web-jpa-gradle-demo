@@ -1,0 +1,19 @@
+query companiesQueryMore($first: Int, $after:String) {
+    companiesCursor(first: $first, after: $after) {
+        edges {
+          cursor
+          node {
+            id
+            name
+            createdTime
+            updatedTime
+          }
+        }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
+    }
+}

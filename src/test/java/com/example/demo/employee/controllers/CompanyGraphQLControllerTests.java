@@ -2,6 +2,7 @@ package com.example.demo.employee.controllers;
 
 
 import com.example.demo.employee.apis.input.CompanyCreateInput;
+import com.example.demo.employee.models.CompanyConnection;
 import com.example.demo.employee.models.CompanyModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -132,6 +133,72 @@ public class CompanyGraphQLControllerTests {
             // Object classification = responseError.getExtensions().get("classification");
             // return ErrorType.BAD_REQUEST.toString().equalsIgnoreCase(classification + "");
         });
+    }
+
+    @Test
+    void should_get_companies_with_cursor_first_page() throws JsonProcessingException {
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companiesQueryFirst")
+                .variable("first", 2)
+                .execute();
+
+        Assertions.assertNotNull(response);
+        GraphQlTester.Path path = response.path("companiesCursor");
+        Assertions.assertNotNull(path);
+        GraphQlTester.Entity<CompanyConnection, ?> entity = path.entity(CompanyConnection.class);
+        //
+        String s = objectMapper.writeValueAsString(entity.get());
+        System.out.println(s);
+        //
+        CompanyConnection companyConnection = entity.get();
+        /*
+        {"edges":[{"cursor":"MTYw","node":{"id":160,"name":"Company DD","createdTime":"2024-03-11T22:24:36","updatedTime":"2024-03-11T22:24:36"}},{"cursor":"MTU5","node":{"id":159,"name":"BYD","createdTime":"2024-03-10T22:51:50","updatedTime":"2024-03-10T22:51:50"}}],"pageInfo":{"startCursor":"MTU5","endCursor":"MTYw","hasNextPage":true,"hasPreviousPage":false}}
+         */
+    }
+
+    @Test
+    void should_get_companies_with_cursor_next_page() throws JsonProcessingException {
+        var after = "MTU5";
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companiesQueryMore")
+                .variable("first", 2)
+                .variable("after", after)
+                .execute();
+
+        Assertions.assertNotNull(response);
+        GraphQlTester.Path path = response.path("companiesCursor");
+        Assertions.assertNotNull(path);
+        GraphQlTester.Entity<CompanyConnection, ?> entity = path.entity(CompanyConnection.class);
+        //
+        String s = objectMapper.writeValueAsString(entity.get());
+        System.out.println(s);
+        //
+        CompanyConnection companyConnection = entity.get();
+        /*
+        {"edges":[{"cursor":"MTU4","node":{"id":158,"name":"Company BYD","createdTime":"2024-03-10T17:50:37","updatedTime":"2024-03-10T17:50:37"}},{"cursor":"MTU3","node":{"id":157,"name":"Company Zaker","createdTime":"2024-03-10T17:48:22","updatedTime":"2024-03-10T17:48:22"}}],"pageInfo":{"startCursor":"MTU3","endCursor":"MTU4","hasNextPage":true,"hasPreviousPage":true}}
+         */
+    }
+
+    @Test
+    void should_get_companies_with_cursor_prev_page() throws JsonProcessingException {
+        var before = "MTU4";
+        GraphQlTester.Response response = this.graphQlTester
+                .documentName("companiesQueryLast")
+                .variable("last", 2)
+                .variable("before", before)
+                .execute();
+
+        Assertions.assertNotNull(response);
+        GraphQlTester.Path path = response.path("companiesCursor");
+        Assertions.assertNotNull(path);
+        GraphQlTester.Entity<CompanyConnection, ?> entity = path.entity(CompanyConnection.class);
+        //
+        String s = objectMapper.writeValueAsString(entity.get());
+        System.out.println(s);
+        //
+        CompanyConnection companyConnection = entity.get();
+        /*
+        */
     }
 
 }

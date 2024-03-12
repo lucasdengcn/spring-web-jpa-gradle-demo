@@ -1,6 +1,7 @@
 type Query {
 	companies(pageSize:Int, pageIndex:Int): [Company]!
 	company(id:Int): Company
+	companiesCursor(first: Int, after: String, last: Int, before: String): CompanyConnection
 }
 
 type Mutation {

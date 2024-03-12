@@ -25,3 +25,7 @@ https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
 https://www.baeldung.com/spring-data-jpa-dynamicupdate
 
 https://www.baeldung.com/spring-graphql-error-handling
+
+https://www.baeldung.com/kotlin/kotest-spring-boot-test
+
+https://techdozo.dev/spring-for-graphql-pagination-with-code-example/
