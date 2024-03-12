@@ -1,6 +1,6 @@
 package com.example.demo.employee.exception
 
-data class RecordNotFoundException(
+data class AuthenticationException(
     val code: String,
     override val message: String,
     val path: String,

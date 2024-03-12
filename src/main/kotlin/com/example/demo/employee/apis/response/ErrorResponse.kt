@@ -1,3 +1,6 @@
 package com.example.demo.employee.apis.response
 
-data class ErrorResponse(val code: String, val message: String, val path: String){}
+data class ErrorResponse(val code: String,
+                         val message: String,
+                         val path: String?,
+                         val traceId: String?){}

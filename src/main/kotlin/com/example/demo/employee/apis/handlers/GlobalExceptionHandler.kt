@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.context.request.ServletWebRequest
+import org.springframework.web.context.request.WebRequest
 
 @ControllerAdvice
 class GlobalExceptionHandler {
@@ -18,16 +20,35 @@ class GlobalExceptionHandler {
     companion object {
         val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
     }
+
+    fun getRequestUri(request: WebRequest) : String {
+        if (request is ServletWebRequest){
+            return request.request.requestURI
+        } else {
+            return "Unknown"
+        }
+    }
+
+    fun getTraceId(request: WebRequest) : String? {
+        if (request is ServletWebRequest){
+            val header = request.getHeader("trace-id")
+            return header
+        } else {
+            return "Unknown"
+        }
+    }
+
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    fun handleException(ex: IllegalStateException, request: HttpRequest): ResponseEntity<ErrorResponse> {
+    fun handleException(ex: IllegalStateException, request: WebRequest): ResponseEntity<ErrorResponse> {
         logger.error("IllegalState: ", ex)
         //
         val errorResponse = ErrorResponse(
             "IllegalState",
             ex.message!!,
-            request.uri.path
+            getRequestUri(request),
+            getTraceId(request)
         )
         return wrapResponse(errorResponse, HttpStatus.BAD_REQUEST)
     }
@@ -35,13 +56,14 @@ class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleNotFoundException(ex: RecordNotFoundException, request: HttpRequest): ResponseEntity<ErrorResponse> {
-        logger.error("RecordNotFoundException: ", ex)
+    fun handleNotFoundException(ex: RecordNotFoundException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        logger.error("RecordNotFoundException: {}", request, ex)
         //
         val errorResponse = ErrorResponse(
             ex.code,
             ex.message!!,
-            request.uri.path
+            getRequestUri(request),
+            getTraceId(request)
         )
         return wrapResponse(errorResponse, HttpStatus.NOT_FOUND)
     }
@@ -49,13 +71,14 @@ class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    fun handleNotAcceptableException(ex: HttpMediaTypeNotAcceptableException, request: HttpRequest): ResponseEntity<ErrorResponse> {
+    fun handleNotAcceptableException(ex: HttpMediaTypeNotAcceptableException, request: WebRequest): ResponseEntity<ErrorResponse> {
         logger.error("RequestNotSupported: ", ex)
         //
         val errorResponse = ErrorResponse(
             "RequestNotSupported",
             ex.message!!,
-            request.uri.path
+            getRequestUri(request),
+            getTraceId(request)
         )
         return wrapResponse(errorResponse, HttpStatus.NOT_ACCEPTABLE)
     }
@@ -63,13 +86,14 @@ class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    fun handleNotSupportedException(ex: HttpRequestMethodNotSupportedException, request: HttpRequest): ResponseEntity<ErrorResponse> {
+    fun handleNotSupportedException(ex: HttpRequestMethodNotSupportedException, request: WebRequest): ResponseEntity<ErrorResponse> {
         logger.error("RequestNotSupported: ", ex)
         //
         val errorResponse = ErrorResponse(
             "RequestNotSupported",
             ex.message!!,
-            request.uri.path
+            getRequestUri(request),
+            getTraceId(request)
         )
         return wrapResponse(errorResponse, HttpStatus.METHOD_NOT_ALLOWED)
     }
@@ -77,13 +101,14 @@ class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    fun handleRuntimeException(ex: RuntimeException, request: HttpRequest): ResponseEntity<ErrorResponse> {
+    fun handleRuntimeException(ex: Exception, request: WebRequest): ResponseEntity<ErrorResponse> {
         logger.error("UnexpectedError: ", ex)
         //
         val errorResponse = ErrorResponse(
             "Request Error",
             ex.message!!,
-            request.uri.path
+            getRequestUri(request),
+            getTraceId(request)
         )
         return wrapResponse(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
     }
@@ -91,7 +116,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    fun handleNotValidException(ex: MethodArgumentNotValidException, request: HttpRequest): ResponseEntity<ErrorResponse> {
+    fun handleNotValidException(ex: MethodArgumentNotValidException, request: WebRequest): ResponseEntity<ErrorResponse> {
         logger.error("RequestInputInvalid: ", ex)
         //
         val errorMessages = arrayListOf("")
@@ -100,7 +125,8 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             "RequestInputInvalid",
             errorMessages.joinToString(","),
-            request.uri.path
+            getRequestUri(request),
+            getTraceId(request)
         )
         return wrapResponse(errorResponse, HttpStatus.BAD_REQUEST)
     }

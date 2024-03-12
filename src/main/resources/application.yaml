@@ -10,6 +10,7 @@ logging:
     org.springframework:
         graphql: TRACE
         web:
+          servlet.mvc: DEBUG
           client.RestClient: DEBUG
 
 graphql:

@@ -53,7 +53,7 @@ public class CompanyService {
         if (companyOptional.isPresent()){
             return companyMapper.entityToModel(companyOptional.get());
         }
-        throw new RecordNotFoundException("404", "Company is not found: " + companyId, "company");
+        throw new RecordNotFoundException("404", "Company is not found: " + companyId, "Company", "traceId");
     }
 
     public CompanyConnection findCompaniesWithCursor(CursorInputModel cursorInputModel){
