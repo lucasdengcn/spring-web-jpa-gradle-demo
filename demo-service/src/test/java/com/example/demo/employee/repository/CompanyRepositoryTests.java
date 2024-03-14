@@ -1,6 +1,6 @@
 package com.example.demo.employee.repository;
 
-import com.example.demo.base.models.CursorInputModel;
+import com.example.demo.models.CursorInputModel;
 import com.example.demo.employee.entities.Company;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 plugins {
-    id 'application'
+    id 'java-library'
     id 'org.springframework.boot'
 }
 
-application {
+bootJar {
     mainClass = 'com.example.demo.Application'
 }
 
@@ -14,35 +14,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-graphql'
-    //implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     //implementation 'de.codecentric:spring-boot-admin-starter-server'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework.kafka:spring-kafka'
     //
-    //implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    // https://mvnrepository.com/artifact/org.mapstruct/mapstruct
-    //implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-    //
     // implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
     //
     implementation 'net.ttddyy:datasource-proxy:1.10'
-    implementation("com.tailrocks.graphql:graphql-datetime-spring-boot-starter:6.0.0")
-    //
-    //implementation 'org.jetbrains.kotlin:kotlin-reflect'
-    //compileOnly 'org.projectlombok:lombok'
+    implementation 'com.tailrocks.graphql:graphql-datetime-spring-boot-starter:6.0.0'
     //
     runtimeOnly 'org.postgresql:postgresql'
     //
-    //annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    //annotationProcessor 'org.projectlombok:lombok'
-    //annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-    //annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
-    //
-    //testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework:spring-webflux'
-    //testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'

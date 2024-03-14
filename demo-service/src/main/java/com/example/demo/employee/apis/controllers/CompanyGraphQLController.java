@@ -1,10 +1,10 @@
 package com.example.demo.employee.apis.controllers;
 
-import com.example.demo.base.models.CursorInputModel;
 import com.example.demo.employee.apis.input.CompanyCreateInput;
 import com.example.demo.employee.models.CompanyConnection;
 import com.example.demo.employee.models.CompanyModel;
 import com.example.demo.employee.services.CompanyService;
+import com.example.demo.models.CursorInputModel;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.graphql.data.method.annotation.Argument;

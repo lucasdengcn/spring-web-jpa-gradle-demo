@@ -1,0 +1,35 @@
+openApiValidate {
+    inputSpec.set(openApiSpecFile)
+    recommend.set(true)
+}
+
+openApiGenerate {
+    validateSpec.set(true)
+    generatorName.set("kotlin-spring")
+    inputSpec.set(openApiSpecFile)
+    outputDir.set(openApiGeneratedOutput)
+    packageName.set(openApiGeneratedPackageName)
+    globalProperties.set([
+            models : "",
+            apis : "false"
+    ])
+    typeMappings.set([
+            "date" : "java.time.LocalDate",
+            "dateTime" : "java.time.LocalDateTime"
+    ])
+    importMappings.set([
+            "date" : "java.time.LocalDate",
+            "dateTime" : "java.time.LocalDateTime"
+    ])
+    additionalProperties.set([
+            useSpringBoot3: true,
+            useBeanValidation: true
+    ])
+    configOptions.set([
+            gradleBuildFile: "false",
+            dateLibrary: "java8",
+            library: "spring-boot",
+            serializationLibrary: "jackson",
+            annotationLibrary: "swagger2"
+    ])
+}

@@ -2,10 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id 'java'
-	//id 'application'
 	id 'maven-publish'
 	id 'jacoco'
-	id 'org.openapi.generator' version '7.4.0'
+	id "org.openapi.generator" version "7.4.0"
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'com.netflix.dgs.codegen' version '6.0.3'
@@ -13,6 +12,7 @@ plugins {
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 	id 'org.jetbrains.kotlin.jvm' version '1.9.22'
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.9.22'
+	id 'org.jetbrains.kotlin.plugin.jpa' version '1.9.22'
 }
 
 configurations {
@@ -28,6 +28,9 @@ ext {
 	set('springCloudVersion', "2023.0.0")
 	set('mapStructVersion', "1.5.5.Final")
 	set('lombokMapstructBindingVersion', "0.2.0")
+	set('openApiGeneratedOutput', "$rootDir/demo-model")
+	set('openApiGeneratedPackageName', 'com.example.demo.employee')
+	set('openApiSpecFile', 'specification/oas.yaml')
 }
 
 allprojects {
@@ -50,13 +53,17 @@ kotlin {
 	jvmToolchain(21)
 }
 
+bootJar {
+	mainClass = 'com.example.demo.Application'
+}
+
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'jacoco'
-	//apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'org.jetbrains.kotlin.jvm'
 	apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+	apply plugin: 'org.jetbrains.kotlin.plugin.jpa'
 	apply plugin: 'org.asciidoctor.jvm.convert'
 	apply plugin: 'maven-publish'
 
@@ -76,35 +83,16 @@ subprojects {
 	}
 
 	dependencies {
-		//implementation 'org.springframework.boot:spring-boot-starter-actuator'
-		//implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-		//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		//implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-		//implementation 'org.springframework.boot:spring-boot-starter-graphql'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
-		//implementation 'org.springframework.boot:spring-boot-starter-web'
-		//implementation 'de.codecentric:spring-boot-admin-starter-server'
-		//implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-		//implementation 'org.flywaydb:flyway-core'
-		//implementation 'org.springframework.kafka:spring-kafka'
 		//
 		implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 		// https://mvnrepository.com/artifact/org.mapstruct/mapstruct
 		implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-		//
-		// implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
-		//
-		//implementation 'net.ttddyy:datasource-proxy:1.10'
-		//implementation("com.tailrocks.graphql:graphql-datetime-spring-boot-starter:6.0.0")
-		//implementation 'io.swagger.core.v3:swagger-models:2.2.20'
 		implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 		implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 		//
 		implementation 'org.jetbrains.kotlin:kotlin-reflect'
-		// https://mvnrepository.com/artifact/org.projectlombok/lombok
 		compileOnly 'org.projectlombok:lombok:1.18.30'
-		//
-		//runtimeOnly 'org.postgresql:postgresql'
 		//
 		annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 		annotationProcessor 'org.projectlombok:lombok'
@@ -112,11 +100,6 @@ subprojects {
 		annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 		//
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		//testImplementation 'org.springframework:spring-webflux'
-		//testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
-		//testImplementation 'org.springframework.graphql:spring-graphql-test'
-		//testImplementation 'org.springframework.kafka:spring-kafka-test'
-		//testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	}
 
 //tasks.named('contractTest') {
@@ -146,8 +129,19 @@ subprojects {
 		generateClient = true
 	}
 
+	compileJava {
+		options.compilerArgs = [
+				'-Amapstruct.unmappedTargetPolicy=IGNORE'
+		]
+		options.annotationProcessorPath = configurations.annotationProcessor
+	}
+
+	apply from: "$rootDir/jacoco-build.gradle"
+	apply from: "$rootDir/publish.gradle"
+
 }
 
 //contracts {
 //}
 
+apply from: 'openapi-generator.gradle'

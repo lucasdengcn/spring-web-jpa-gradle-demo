@@ -1,7 +1,5 @@
 package com.example.demo.employee.services;
 
-import com.example.demo.base.models.CursorInputModel;
-import com.example.demo.base.models.CursorPageModel;
 import com.example.demo.employee.apis.input.CompanyCreateInput;
 import com.example.demo.employee.entities.Company;
 import com.example.demo.employee.exception.RecordNotFoundException;
@@ -10,6 +8,8 @@ import com.example.demo.employee.models.CompanyConnection;
 import com.example.demo.employee.models.CompanyEdge;
 import com.example.demo.employee.models.CompanyModel;
 import com.example.demo.employee.repository.CompanyRepository;
+import com.example.demo.models.CursorInputModel;
+import com.example.demo.models.CursorPageModel;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

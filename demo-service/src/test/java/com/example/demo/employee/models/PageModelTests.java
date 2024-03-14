@@ -1,7 +1,7 @@
 package com.example.demo.employee.models;
 
-import com.example.demo.base.models.PageModel;
-import com.example.demo.base.models.PageablePayload;
+import com.example.demo.models.PageModel;
+import com.example.demo.models.PageablePayload;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.util.Lists;
