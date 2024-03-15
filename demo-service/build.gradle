@@ -7,6 +7,10 @@ bootJar {
     mainClass = 'com.example.demo.Application'
 }
 
+springBoot {
+    buildInfo()
+}
+
 dependencies {
     implementation(project(':demo-model'))
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -32,3 +36,28 @@ dependencies {
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
+
+publishing {
+    publications {
+        bootJava(MavenPublication) {
+            artifact tasks.named("bootJar")
+        }
+    }
+}
+
+tasks.named("bootJar") {
+    archiveClassifier = 'boot'
+    manifest {
+        attributes (
+            'Main-Class': 'org.springframework.boot.loader.launch.JarLauncher'
+        )
+    }
+}
+
+tasks.named("bootRun") {
+    mainClass = 'com.example.demo.Application'
+}
+
+
+
+
