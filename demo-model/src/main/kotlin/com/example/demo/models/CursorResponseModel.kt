@@ -1,6 +1,6 @@
 package com.example.demo.models
 
-data class CursorReponseModel(
+data class CursorResponseModel(
     val startCursor: String,
     val endCursor: String, 
     val hasNextPage: Boolean,

@@ -28,3 +28,22 @@ publishing {
         mavenLocal()
     }
 }
+
+artifactory {
+    publish {
+        // Define the Artifactory URL for publishing artifacts
+        contextUrl = 'http://127.0.0.1:8081/artifactory'
+        // Define the project repository to which the artifacts will be published
+        repository {
+            releaseRepoKey = "local-release" // The Artifactory repository key to publish to
+            snapshotRepoKey = "$System.env.ARTIFACTORY_LOCAL_REPO" // The Artifactory repository key to publish to
+            username = "$System.env.PLATFORM_USERNAME" // The publisher user name
+            password = "$System.env.PLATFORM_ADMIN_TOKEN" // The publisher password
+        }
+
+        // Include all configured publications for all the modules
+        defaults {
+            publications('ALL_PUBLICATIONS')
+        }
+    }
+}

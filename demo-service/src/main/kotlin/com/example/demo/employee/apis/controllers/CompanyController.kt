@@ -1,11 +1,10 @@
 package com.example.demo.employee.apis.controllers
 
-import com.example.demo.models.PageModel
-import com.example.demo.models.PageablePayload
-import com.example.demo.models.Payload
 import com.example.demo.employee.apis.input.CompanyCreateInput
-import com.example.demo.employee.models.CompanyModel
+import com.example.demo.employee.models.CompaniesPaginationResponse
+import com.example.demo.employee.models.CompanySummaryResponse
 import com.example.demo.employee.services.CompanyService
+import com.example.demo.models.PaginationModel
 import jakarta.validation.Valid
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,35 +21,32 @@ class CompanyController(val companyService: CompanyService) {
     }
 
     @PostMapping("/")
-    fun createCompany(@Valid @RequestBody companyCreateInput: CompanyCreateInput): ResponseEntity<com.example.demo.models.Payload<CompanyModel>> {
+    fun createCompany(@Valid @RequestBody companyCreateInput: CompanyCreateInput): ResponseEntity<CompanySummaryResponse> {
         logger.info("companyCreateInput: {}", companyCreateInput)
         val companyModel = companyService.create(companyCreateInput)
-        val payload = com.example.demo.models.Payload<CompanyModel>(companyModel)
-        return ResponseEntity<com.example.demo.models.Payload<CompanyModel>>(payload, HttpStatus.CREATED)
+        val payload = CompanySummaryResponse(companyModel)
+        return ResponseEntity.status(HttpStatus.CREATED).body(payload)
     }
 
     @GetMapping("/{id}")
-    fun getCompanyById(@PathVariable id: Int): ResponseEntity<com.example.demo.models.Payload<CompanyModel>> {
+    fun getCompanyById(@PathVariable id: Int): ResponseEntity<CompanySummaryResponse> {
         logger.info("id: {}", id)
         val companyModel = companyService.findCompanyById(id)
-        val payload = com.example.demo.models.Payload<CompanyModel>(companyModel)
-        return ResponseEntity<com.example.demo.models.Payload<CompanyModel>>(payload, HttpStatus.OK)
+        val payload = CompanySummaryResponse(companyModel)
+        return ResponseEntity.status(HttpStatus.OK).body(payload)
     }
 
     @GetMapping("/{pageSize}/{pageIndex}")
     fun getCompaniesPagination(@PathVariable pageSize: Int, @PathVariable pageIndex: Int):
-            ResponseEntity<com.example.demo.models.PageablePayload<List<CompanyModel>>> {
+            ResponseEntity<CompaniesPaginationResponse> {
         logger.info("pageSize: {}, pageIndex: {}", pageSize, pageIndex)
         val companies = companyService.findCompanies(pageSize, pageIndex)
         //
         val pageModel =
-            com.example.demo.models.PageModel(pageSize, pageIndex, companies.numberOfElements)
-        val payload = com.example.demo.models.PageablePayload<List<CompanyModel>>(
-            companies.toList(),
-            pageModel
-        )
+            PaginationModel(pageSize, pageIndex, companies.numberOfElements)
+        val response = CompaniesPaginationResponse(companies.toList(), pageModel)
         //
-        return ResponseEntity<com.example.demo.models.PageablePayload<List<CompanyModel>>>(payload, HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 
 }
