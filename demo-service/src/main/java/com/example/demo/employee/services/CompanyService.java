@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 @Slf4j
@@ -39,13 +40,19 @@ public class CompanyService {
         return companyMapper.entityToModel(company);
     }
 
+    @Transactional
+    public CompanyModel save(CompanyCreateInput companyCreateInput) throws Throwable {
+        var company = companyRepository.findById(1).orElseThrow((Supplier<Throwable>) () -> new RecordNotFoundException("", "", "", ""));
+        companyRepository.save(company);
+        return companyMapper.entityToModel(company);
+    }
+
     public Page<CompanyModel> findCompanies(@NonNull Integer pageSize, @NonNull Integer pageIndex){
         Pageable pageable = Pageable.ofSize(pageSize).withPage(pageIndex);
         Page<Company> companyPage = companyRepository.findAll(pageable);
         //
-        Page<CompanyModel> companyVOPage = companyPage.map(company -> companyMapper.entityToModel(company));
         //
-        return companyVOPage;
+        return companyPage.map(company -> companyMapper.entityToModel(company));
     }
 
     public CompanyModel findCompanyById(@NonNull Integer companyId){
@@ -61,13 +68,13 @@ public class CompanyService {
         int pageSize = cursorInputModel.pageSize();
         //
         List<Company> companyList;
-        boolean hasNextPage = false;
+        boolean hasNextPage;
         boolean hasPreviousPage = false;
-        String startCursor = null;
-        String endCursor = null;
+        String startCursor;
+        String endCursor;
         // Sorting in DESC Order
         Integer cursorId = null;
-        if (!StringUtils.isEmpty(cursorInputModel.getCursor())) {
+        if (StringUtils.hasLength(cursorInputModel.getCursor())) {
             cursorId = CursorInputModel.decode(cursorInputModel.getCursor());
         }
         if (cursorInputModel.hasCursors() && cursorInputModel.hasNextPageCursor()) {
@@ -90,7 +97,6 @@ public class CompanyService {
             hasNextPage = !temp.isEmpty();
         } else {
             companyList = companyRepository.findWithCursor(pageSize + 1);
-            hasPreviousPage = false;
             endCursor = CursorInputModel.encode(companyList.getFirst().getId());
             int endCursorIndex = getEndCursorIndex(companyList.size(), pageSize);
             startCursor = CursorInputModel.encode(companyList.get(endCursorIndex).getId());

@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'maven-publish'
 	id 'jacoco'
+	id 'pmd'
 	id "org.openapi.generator" version "7.4.0"
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
@@ -67,6 +68,7 @@ subprojects {
 	apply plugin: 'org.jetbrains.kotlin.plugin.jpa'
 	apply plugin: 'org.asciidoctor.jvm.convert'
 	apply plugin: 'maven-publish'
+	apply plugin: 'pmd'
 
 	group = 'com.example.demo'
 	version = '0.0.1-SNAPSHOT'
@@ -94,6 +96,7 @@ subprojects {
 		//
 		implementation 'org.jetbrains.kotlin:kotlin-reflect'
 		compileOnly 'org.projectlombok:lombok:1.18.30'
+		compileOnly 'com.alibaba.p3c:p3c-pmd:2.1.1'
 		//
 		annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 		annotationProcessor 'org.projectlombok:lombok'
@@ -135,6 +138,14 @@ subprojects {
 				'-Amapstruct.unmappedTargetPolicy=IGNORE'
 		]
 		options.annotationProcessorPath = configurations.annotationProcessor
+	}
+
+	pmd {
+		consoleOutput = true
+		toolVersion = "7.1.0"
+		rulesMinimumPriority = 5
+		//targetJdk = 21
+		ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
 	}
 
 	apply from: "$rootDir/jacoco-build.gradle"

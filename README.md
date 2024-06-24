@@ -65,6 +65,16 @@ openapi-generator generate \
 ## Questions
 * Kotlin constructor with optional parameters
 
+## Code Analysis
+* https://pmd.github.io/pmd/pmd_rules_java_bestpractices.html
+
+## Testing
+### Integration Testing
+
+### Stub
+https://wiremock.org/docs/request-matching/
+https://wiremock.org/docs/solutions/spring-boot/
+
 ## Reference
 
 https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-postgresql/

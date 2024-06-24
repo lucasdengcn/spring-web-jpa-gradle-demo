@@ -17,7 +17,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Auditable<U> {
+public class Auditable<U> {
 
     @CreatedBy
     protected U createdBy;

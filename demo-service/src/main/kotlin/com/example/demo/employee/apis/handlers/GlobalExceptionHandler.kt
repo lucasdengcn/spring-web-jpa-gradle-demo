@@ -61,7 +61,7 @@ class GlobalExceptionHandler {
         //
         val errorResponse = ErrorResponse(
             ex.code,
-            ex.message!!,
+            ex.message,
             getRequestUri(request),
             getTraceId(request)
         )
